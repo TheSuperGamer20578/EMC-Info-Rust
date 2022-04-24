@@ -15,12 +15,12 @@ pub struct Data {
 }
 
 pub(crate) struct Town {
-    name: String,
-    fill_colour: Colour,
-    colour: Colour,
-    x: Vec<i32>,
-    z: Vec<i32>,
-    desc: String,
+    pub(crate) name: String,
+    pub(crate) fill_colour: Colour,
+    pub(crate) colour: Colour,
+    pub(crate) x: Vec<i32>,
+    pub(crate) z: Vec<i32>,
+    pub(crate) desc: String,
 }
 
 #[derive(Deserialize)]
