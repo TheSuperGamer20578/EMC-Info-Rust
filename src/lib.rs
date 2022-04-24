@@ -6,6 +6,7 @@ use std::fmt::{Display, Formatter};
 
 pub mod util;
 pub mod data;
+pub mod town;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -36,7 +37,7 @@ impl From<reqwest::Error> for Error {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Position {
     pub x: i32,
     pub y: i16,
@@ -49,7 +50,7 @@ impl Display for Position {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Bounds {
     pub x1: i32,
     pub z1: i32,
@@ -57,7 +58,7 @@ pub struct Bounds {
     pub z2: i32,
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Colour {
     red: u8,
     green: u8,
