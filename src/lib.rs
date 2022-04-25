@@ -8,6 +8,7 @@ pub mod util;
 pub mod data;
 pub mod town;
 pub mod resident;
+pub mod nation;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -25,7 +26,7 @@ impl Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Error::TownNotFound => write!(f, "The specified town could not be found"),
-            Error::NationNotFound => write!(f, "The specified nation could not be found"),
+            Error::NationNotFound => write!(f, "The specified nation.rs could not be found"),
             Error::ReqwestError(error) => write!(f, "A reqwest error has occurred: {}", error),
             Error::ParseError(error) => write!(f, "Something went wrong while parsing: {}", error),
         }

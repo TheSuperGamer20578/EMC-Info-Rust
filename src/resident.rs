@@ -1,5 +1,6 @@
 use crate::{Position, Result};
 use crate::data::{Data, Player};
+use crate::nation::Nation;
 use crate::town::Town;
 
 pub struct Resident {

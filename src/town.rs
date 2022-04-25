@@ -3,10 +3,12 @@ use regex::Regex;
 
 use crate::{Bounds, Colour, Error, Position, Result};
 use crate::data::Data;
+use crate::nation::Nation;
 use crate::resident::Resident;
 
 lazy_static! {
-    static ref DESC_REGEX: Regex = Regex::new(r">[^<>]+ \((?<nation>[^<>]+)\)<.+> Mayor <.+>(?<mayor>[^<>]+)<.+> Members <.+>(?<residents>[^<>]+)<.+>Flags<.+>hasUpkeep: (?<upkeep>true|false)<.+>pvp: (?<pvp>true|false)<.+>mobs: (?<mbos>true|false)<.+>public: (?<public>true|false)<.+>explosion: (?<explosions>true|false)<.+>fire: (?<fire>true|false)<.+>capital: (?<capital>true|false)").unwrap()
+    static ref DESC_REGEX: Regex = Regex::new(r">[^<>]+ \([^<>)]+\)<.+> Mayor <.+>(?<mayor>[^<>]+)<.+> Members <.+>(?<residents>[^<>]+)<.+>Flags<.+>hasUpkeep: (?<upkeep>true|false)<.+>pvp: (?<pvp>true|false)<.+>mobs: (?<mbos>true|false)<.+>public: (?<public>true|false)<.+>explosion: (?<explosions>true|false)<.+>fire: (?<fire>true|false)<.+>capital: (?<capital>true|false)").unwrap();
+    pub(crate) static ref NATION_REGEX: Regex = Regex::new(r">[^<>(]+ \((?<nation>[^<>)]+)\)").unwrap();
 }
 
 pub struct Town {
@@ -36,10 +38,10 @@ pub fn get(data: &Data, town: &String) -> Result<Town> {
     todo!("Awaiting nation implementation")
 }
 
-fn with_nation(data: &Data, town: &String, nation: Nation) -> Result<Town> {
+pub(crate) fn with_nation(data: &Data, town: &String, nation: Nation) -> Result<Town> {
     let town = if data.ignore_case { town.to_lowercase() } else { town };
     let town_data = data.towns.get(&town).ok_or(Error::TownNotFound)?;
-    let captures = DESC_REGEX: Regex.captures(&town_data.desc).ok_or(Error::ParseError("Regex did not match"))?;
+    let captures = DESC_REGEX.captures(&town_data.desc).ok_or(Error::ParseError("Regex did not match"))?;
     Ok(Town {
         name: town_data.name.clone(),
         nation,
