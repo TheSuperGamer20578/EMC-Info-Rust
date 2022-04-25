@@ -7,6 +7,7 @@ use std::fmt::{Display, Formatter};
 pub mod util;
 pub mod data;
 pub mod town;
+pub mod resident;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
