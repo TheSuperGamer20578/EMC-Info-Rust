@@ -1,7 +1,7 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::{Bounds, Colour, Error, Position, Result};
+use crate::{Bounds, Colour, Error, nation, Position, Result};
 use crate::data::Data;
 use crate::nation::Nation;
 use crate::resident::Resident;
@@ -16,13 +16,21 @@ pub struct Town {
     pub nation: Nation,
     pub stroke_colour: Colour,
     pub fill_colour: Colour,
-    pub mayor: Resident,
-    pub residents: Vec<Resident>,
     pub flags: TownFlags,
     pub position: Position,
     pub bounds: Bounds,
     // pub ruins: bool, TODO
     // pub area: u16, TODO
+}
+
+impl Town {
+    pub fn mayor(&self) -> Result<Resident> {
+        todo!()
+    }
+
+    pub fn residents(&self) -> Result<Vec<Resident>> {
+        todo!()
+    }
 }
 
 pub struct TownFlags {
@@ -35,7 +43,14 @@ pub struct TownFlags {
 
 pub fn get(data: &Data, town: &String) -> Result<Town> {
     let town = if data.ignore_case { town.to_lowercase() } else { town };
-    todo!("Awaiting nation implementation")
+    with_nation(data, &town, nation::get(data, &NATION_REGEX
+        .captures(&*data.towns.get(&town).ok_or(Error::TownNotFound)?.desc)
+        .ok_or(Error::ParseError("Nation regex did not match"))?
+        .name("nation")
+        .ok_or(Error::ParseError("Nation regex did not capture nation"))?
+        .as_str()
+        .to_string(),
+    )?)
 }
 
 pub(crate) fn with_nation(data: &Data, town: &String, nation: Nation) -> Result<Town> {
@@ -47,8 +62,6 @@ pub(crate) fn with_nation(data: &Data, town: &String, nation: Nation) -> Result<
         nation,
         stroke_colour: town_data.colour.clone(),
         fill_colour: town_data.fill_colour.clone(),
-        mayor: captures.name("mayor").ok_or(Error::ParseError("Regex did not capture name")),
-        residents: captures.name("residents").ok_or(Error::ParseError("Regex did not capture residents"))?.as_str().split(", ").map(|resident| todo!("Awaiting Resident implementation")).collect(),
         flags: TownFlags {
             pvp: captures.name("pvp").ok_or(Error::ParseError("Regex did not capture pvp"))?.as_str().parse().or(Err(Error::ParseError("pvp is not a bool")))?,
             mobs: captures.name("mobs").ok_or(Error::ParseError("Regex did not capture mobs"))?.as_str().parse().or(Err(Error::ParseError("mobs is not a bool")))?,
