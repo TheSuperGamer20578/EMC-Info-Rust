@@ -1,7 +1,9 @@
 use std::collections::HashMap;
+
 use futures::future::try_join;
 use serde::Deserialize;
 use serde_json::Value;
+
 use crate::{Colour, Result};
 use crate::Error::ParseError;
 
@@ -23,6 +25,7 @@ pub(crate) struct Town {
     pub(crate) desc: String,
 }
 
+#[allow(unused)]
 #[derive(Deserialize)]
 pub(crate) struct Players {
     #[serde(rename = "currentcount")]
@@ -35,6 +38,7 @@ pub(crate) struct Players {
     pub(crate) players: HashMap<String, Player>,
 }
 
+#[allow(unused)]
 #[derive(Deserialize, Clone)]
 pub(crate) struct Player {
     pub(crate) world: String,
@@ -107,10 +111,10 @@ pub async fn get_async(ignore_case: bool) -> Result<Data> {
 
 #[cfg(test)]
 mod tests {
-    #[cfg(feature = "sync")]
-    use crate::data::get_sync;
     #[cfg(feature = "async")]
     use crate::data::get_async;
+    #[cfg(feature = "sync")]
+    use crate::data::get_sync;
 
     #[cfg(feature = "sync")]
     #[test]

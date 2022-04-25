@@ -1,8 +1,9 @@
-use crate::{Position, Result};
-use crate::data::{Data, Player};
+use crate::{Position, Result, town};
+use crate::data::Data;
 use crate::nation::Nation;
 use crate::town::Town;
 
+#[derive(Debug, Clone)]
 pub struct Resident {
     pub name: String,
     pub online: bool,
@@ -14,17 +15,17 @@ pub struct Resident {
 }
 
 pub fn get(data: &Data, resident: &String) -> Result<Resident> {
-    let resident = if data.ignore_case { resident.to_lowercase() } else { resident };
+    let resident = if data.ignore_case { resident.to_lowercase() } else { resident.to_string() };
     Ok(with_town(data, &resident, data.towns.iter()
         .find_map(|(name, town)| {
             if town.desc.contains(&resident) { Some(name) } else { None }
         })
-        .map_or(Ok(None), |town| Ok(Some(town::get(data, town)?)))?,
+        .map_or(Result::<Option<Town>>::Ok(None), |town| Ok(Some(town::get(data, town)?)))?,
     ))
 }
 
 fn with_town(data: &Data, resident: &String, town: Option<Town>) -> Resident {
-    let name = if data.ignore_case { resident.to_lowercase() } else { resident };
+    let name = if data.ignore_case { resident.to_lowercase() } else { resident.to_string() };
     match data.players.players.get(&*name) {
         Some(resident_data) => {
             Resident {
@@ -35,13 +36,13 @@ fn with_town(data: &Data, resident: &String, town: Option<Town>) -> Resident {
                     y: resident_data.y as i16,
                     z: resident_data.z as i32,
                 }),
-                hidden: resident_data.x == 0 && resident_data.y == 64 && resident_data.z == 0,
-                town,
+                hidden: resident_data.x == 0.0 && resident_data.y == 64.0 && resident_data.z == 0.0,
                 nation: match &town {
-                    Some(town) => { Some(*town.nation) }
+                    Some(town) => { Some(town.nation.clone()) }
                     None => { None }
                 },
-                npc: resident.startswith("NPC") && resident[3..].parse::<u16>().is_ok(),
+                npc: resident.starts_with("NPC") && resident[3..].parse::<u16>().is_ok(),
+                town,
             }
         }
         None => {
@@ -52,7 +53,7 @@ fn with_town(data: &Data, resident: &String, town: Option<Town>) -> Resident {
                 hidden: true,
                 town,
                 nation: None,
-                npc: resident.startswith("NPC") && resident[3..].parse::<u16>().is_ok(),
+                npc: resident.starts_with("NPC") && resident[3..].parse::<u16>().is_ok(),
             }
         }
     }
