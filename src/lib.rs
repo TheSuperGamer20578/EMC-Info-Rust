@@ -62,9 +62,9 @@ pub struct Bounds {
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Colour {
-    red: u8,
-    green: u8,
-    blue: u8,
+    pub red: u8,
+    pub green: u8,
+    pub blue: u8,
 }
 
 impl Display for Colour {
