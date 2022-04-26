@@ -38,8 +38,8 @@ fn with_town(data: &Data, resident: &String, town: Option<Town>) -> Resident {
                 }),
                 hidden: resident_data.x == 0.0 && resident_data.y == 64.0 && resident_data.z == 0.0,
                 nation: match &town {
-                    Some(town) => { Some(town.nation.clone()) }
-                    None => { None }
+                    Some(town) => Some(town.nation.clone()),
+                    None => None
                 },
                 npc: resident.starts_with("NPC") && resident[3..].parse::<u16>().is_ok(),
                 town,

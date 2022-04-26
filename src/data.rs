@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[cfg(feature = "async")]
 use futures::future::try_join;
 use serde::Deserialize;
 use serde_json::Value;
