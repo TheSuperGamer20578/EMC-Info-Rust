@@ -7,8 +7,8 @@ use crate::nation::Nation;
 use crate::resident::Resident;
 
 lazy_static! {
-    static ref DESC_REGEX: Regex = Regex::new(r">[^<>]+ \([^<>)]+\)<.+> Mayor <.+>(?P<mayor>[^<>]+)<.+> Members <.+>(?P<residents>[^<>]+)<.+>Flags<.+>hasUpkeep: (?P<upkeep>true|false)<.+>pvp: (?P<pvp>true|false)<.+>mobs: (?P<mobs>true|false)<.+>public: (?P<public>true|false)<.+>explosion: (?P<explosions>true|false)<.+>fire: (?P<fire>true|false)<.+>capital: (?P<capital>true|false)").unwrap();
-    pub(crate) static ref NATION_REGEX: Regex = Regex::new(r">[^<>(]+ \((?P<nation>[^<>)]+)\)<").unwrap();
+    static ref DESC_REGEX: Regex = Regex::new(r">[^<>]+ \([^<>]+\)<.+> Mayor <.+>(?P<mayor>[^<>]+)<.+> Members <.+>(?P<residents>[^<>]+)<.+>Flags<.+>hasUpkeep: (?P<upkeep>true|false)<.+>pvp: (?P<pvp>true|false)<.+>mobs: (?P<mobs>true|false)<.+>public: (?P<public>true|false)<.+>explosion: (?P<explosions>true|false)<.+>fire: (?P<fire>true|false)<.+>capital: (?P<capital>true|false)").unwrap();
+    pub(crate) static ref NATION_REGEX: Regex = Regex::new(r">[^<>]+ \((?P<nation>[^<>]*)\)<").unwrap();
 }
 
 #[derive(Debug, Clone)]
