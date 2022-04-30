@@ -8,8 +8,8 @@ use serde_json::Value;
 use crate::{Colour, Result};
 use crate::Error::ParseError;
 
-const TOWN_DATA_URL: &str = "https://earthmc.net/map/tiles/_markers_/marker_earth.json";
-const PLAYER_DATA_URL: &str = "https://earthmc.net/map/up/world/earth/";
+const TOWN_DATA_URL: &str = "https://earthmc.net/map/nova/tiles/_markers_/marker_earth.json";
+const PLAYER_DATA_URL: &str = "https://earthmc.net/map/nova/up/world/earth/";
 
 pub struct Data {
     pub(crate) towns: HashMap<String, Town>,
